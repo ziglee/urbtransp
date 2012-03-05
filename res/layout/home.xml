@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainlayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:gravity="center">
+
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+    	android:text="Favoritos" android:onClick="favoritosButtonOnClick"/>
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+    	android:text="Mapa" android:onClick="mapaButtonOnClick" android:id="@+id/mapaButton"/>
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+    	android:text="Busca" android:onClick="buscaButtonOnClick"/>
+</LinearLayout>
