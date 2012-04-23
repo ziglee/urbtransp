@@ -3,7 +3,7 @@ package net.cassiolandim.urbtransp.adapter;
 import java.util.List;
 
 import net.cassiolandim.urbtransp.R;
-import net.cassiolandim.urbtransp.service.BusLineService;
+import net.cassiolandim.urbtransp.entity.BusLinePojo;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,38 +11,46 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ComplexBusLineRowAdapter extends ArrayAdapter<String> {
+public class ComplexBusLineRowAdapter extends ArrayAdapter<BusLinePojo> {
 
-	private BusLineService busLineService;
-	private Activity context;
-	private List<String> busLines;
+	private LayoutInflater mInflater;
 	
-	public ComplexBusLineRowAdapter(Activity context, List<String> busLines, BusLineService busLineService) {
+	public ComplexBusLineRowAdapter(Activity context, List<BusLinePojo> busLines) {
 		super(context, R.layout.complex_row, busLines);
-		this.context = context;
-		this.busLines = busLines;
-		this.busLineService = busLineService;
+		this.mInflater = LayoutInflater.from(context);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
-
-		if (row == null) {
-			LayoutInflater inflater = context.getLayoutInflater();
-			row = inflater.inflate(R.layout.complex_row, null);
+		
+		Holder holder = null;
+		if (null == convertView) {
+			row = mInflater.inflate(R.layout.complex_row, null);
+			holder = new Holder(row);
+			row.setTag(holder);
+		} else {
+			holder = (Holder) row.getTag();
 		}
-		
-		String busLine = busLines.get(position);
-		
-		TextView label = (TextView) row.findViewById(R.id.text1);
-		label.setText(busLine);
 
-		return (row);
+		holder.populateFrom(getItem(position));		
+		
+		return row;
 	}
 	
-	@Override
-	public long getItemId(int position) {
-		return position;
+	private class Holder {
+		
+		private TextView name;
+		private TextView code;
+		
+		Holder (View view) {
+			name = (TextView) view.findViewById(R.id.name);
+			code = (TextView) view.findViewById(R.id.code);
+		}
+		
+		void populateFrom(BusLinePojo pojo) {
+			name.setText(pojo.name);
+			code.setText(pojo.code);
+		}
 	}
 }
